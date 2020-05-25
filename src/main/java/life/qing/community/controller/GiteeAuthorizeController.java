@@ -60,7 +60,7 @@ public class GiteeAuthorizeController {
             user.setAccountId(String.valueOf(gitEEUser.getId()));
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtModified(user.getGmtCreate());
-            user.setAvatarUrl(user.getAvatarUrl());
+            user.setAvatarUrl(gitEEUser.getAvatar_url());
 
             userMapper.insert(user);
             response.addCookie(new Cookie("token", token));
