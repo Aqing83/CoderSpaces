@@ -50,8 +50,6 @@ public class GiteeAuthorizeController {
         String accessToken = GitEEProvider.getAccessToken(accessTokenDTO);
         GitEEUser gitEEUser = GitEEProvider.getUser(accessToken);
         if (gitEEUser != null && gitEEUser.getId() != null) {
-            System.out.println("gitEE登录");
-            System.out.println(gitEEUser);
             User user = new User();
             String token = UUID.randomUUID().toString();
 
