@@ -11,16 +11,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class PublishController {
     @Autowired
     private QuestionMapper questionMapper;
-
-    @Autowired
-    private UserMapper userMapper;
 
     @GetMapping("/publish")
     public String publish() {
@@ -37,43 +33,28 @@ public class PublishController {
         model.addAttribute("title", title);
         model.addAttribute("description", description);
         model.addAttribute("tag", tag);
-
+        //发布问题时可能遇到的错误的提示
         if (title == null || title == "") {
             model.addAttribute("error", "标题不能为空");
             return "publish";
         }
 
-        if (description == null|| description == "") {
+        if (description == null || description == "") {
             model.addAttribute("error", "内容不能为空");
             return "publish";
         }
 
-        if (tag == null|| tag == "") {
+        if (tag == null || tag == "") {
             model.addAttribute("error", "标签不能为空");
             return "publish";
         }
 
+        User user = (User) request.getSession().getAttribute("user");
 
-
-        User user = null;
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("token")) {
-                    String token = cookie.getValue();
-                    user = userMapper.selectToken(token);
-                    if (user != null) {
-                        request.getSession().setAttribute("user", user);
-                    }
-                    break;
-                }
-            }
-        }
         if (user == null) {
             model.addAttribute("error", "用户未登录");
             return "publish";
         }
-
 
         Question question = new Question();
         question.setTitle(title);
