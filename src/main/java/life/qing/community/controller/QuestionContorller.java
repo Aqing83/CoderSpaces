@@ -1,7 +1,6 @@
 package life.qing.community.controller;
 
 import life.qing.community.dto.QuestionDTO;
-import life.qing.community.mapper.QuestionMapper;
 import life.qing.community.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,7 +15,7 @@ public class QuestionContorller {
     @GetMapping("/question/{id}")
     public String question(@PathVariable(name="id")Integer id,
                            Model model){
-        QuestionDTO questionDTO = questionService.getById(id);
+        QuestionDTO questionDTO = questionService.findById(id);
         model.addAttribute("question",questionDTO);
         return "question";
     }

@@ -72,9 +72,7 @@ public class QuestionService {
         if (page > totalPage) {
             page = totalPage;
         }
-
         paginationDTO.setPagination(totalPage, page);
-
         //size*(page-1)
         Integer offset = size * (page - 1);
         List<Question> questions = questionMapper.listByUserId(userId,offset, size);
@@ -87,18 +85,27 @@ public class QuestionService {
             questionDTOList.add(questionDTO);
         }
         paginationDTO.setQuestions(questionDTOList);
-
         return paginationDTO;
     }
 
-    public QuestionDTO getById(Integer id) {
+    public QuestionDTO findById(Integer id) {
         Question question = questionMapper.findById(id);
-        User user = userMapper.findById(question.getCreator());
         QuestionDTO questionDTO = new QuestionDTO();
         BeanUtils.copyProperties(question,questionDTO);
+        User user = userMapper.findById(question.getCreator());
         questionDTO.setUser(user);
-        System.out.println(user);
-
         return questionDTO;
+    }
+    public void createOrUpdate(Question question) {
+        if (question.getId() == null) {
+            //创建
+            question.setGmtCreate(System.currentTimeMillis());
+            question.setGmtModified(question.getGmtCreate());
+            questionMapper.create(question);
+        } else{
+            //更新
+            question.setGmtModified(question.getGmtCreate());
+            questionMapper.update(question);
+        }
     }
 }
