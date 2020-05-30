@@ -14,7 +14,7 @@ public class UserService {
     private UserMapper userMapper;
 
     public void createOrUpdate(User user) {
-        System.out.println(user.getAccountId()  );
+        System.out.println(user.getAccountId());
         UserExample userExample = new UserExample();
         userExample.createCriteria()
                 .andAccountIdEqualTo(user.getAccountId());
@@ -24,22 +24,18 @@ public class UserService {
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtModified(user.getGmtCreate());
             userMapper.insert(user);
-
-        } else{
+        } else {
             //更新
             User dbuser1 = users.get(0);
-            System.out.println(dbuser1);
-
             User updateUser = new User();
             updateUser.setGmtCreate(System.currentTimeMillis());
             updateUser.setAvatarUrl(user.getAvatarUrl());
             updateUser.setName(user.getName());
             updateUser.setToken(user.getToken());
-
             UserExample example = new UserExample();
             example.createCriteria()
                     .andIdEqualTo(dbuser1.getId());
-            userMapper.updateByExampleSelective(updateUser,example);
+            userMapper.updateByExampleSelective(updateUser, example);
         }
 
     }

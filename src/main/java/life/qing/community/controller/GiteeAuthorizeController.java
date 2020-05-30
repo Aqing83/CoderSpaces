@@ -7,6 +7,7 @@ import life.qing.community.mapper.UserMapper;
 import life.qing.community.model.User;
 import life.qing.community.provider.GitEEProvider;
 import life.qing.community.provider.GithubProvider;
+import life.qing.community.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -26,6 +27,9 @@ public class GiteeAuthorizeController {
 
     @Autowired
     private GithubProvider githubProvider;
+
+    @Autowired
+    private  UserService userService;
 
     @Autowired
     private UserMapper userMapper;
@@ -60,7 +64,7 @@ public class GiteeAuthorizeController {
             user.setGmtModified(user.getGmtCreate());
             user.setAvatarUrl(gitEEUser.getAvatar_url());
 
-            userMapper.insert(user);
+            userService.createOrUpdate(user);
             response.addCookie(new Cookie("token", token));
 
         } else {
