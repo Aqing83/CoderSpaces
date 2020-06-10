@@ -10,13 +10,16 @@ import life.qing.community.mapper.UserMapper;
 import life.qing.community.model.Question;
 import life.qing.community.model.QuestionExample;
 import life.qing.community.model.User;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 
@@ -50,7 +53,9 @@ public class QuestionService {
         paginationDTO.setPagination(totalPage, page);
         //size*(page-1)
         Integer offset = size * (page - 1);
-        List<Question> questions = questionMapper.selectByExampleWithRowbounds(new QuestionExample(), new RowBounds(offset, size));
+        QuestionExample questionExample = new QuestionExample();
+        questionExample.setOrderByClause("gmt_create desc");
+        List<Question> questions = questionMapper.selectByExampleWithRowbounds(questionExample, new RowBounds(offset, size));
         List<QuestionDTO> questionDTOList = new ArrayList<>();
         for (Question question : questions) {
             User user = userMapper.selectByPrimaryKey(question.getCreator());
@@ -70,7 +75,6 @@ public class QuestionService {
         questionExample.createCriteria()
                 .andCreatorEqualTo(userId);
         Integer totalCount = (int) questionMapper.countByExample(questionExample);
-
 
         if (totalCount % size == 0) {
             totalPage = totalCount / size;
@@ -107,7 +111,7 @@ public class QuestionService {
 
     public QuestionDTO findById(Long id) {
         Question question = questionMapper.selectByPrimaryKey(id);
-        if(question == null){
+        if (question == null) {
             throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
         }
         QuestionDTO questionDTO = new QuestionDTO();
@@ -136,9 +140,9 @@ public class QuestionService {
 
             QuestionExample example = new QuestionExample();
             example.createCriteria()
-                    .andIdEqualTo(question.getId() );
+                    .andIdEqualTo(question.getId());
             int updated = questionMapper.updateByExampleSelective(updateQuestion, example);
-            if(updated != 1){
+            if (updated != 1) {
                 throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
             }
         }
@@ -150,5 +154,25 @@ public class QuestionService {
         question.setViewCount(1);
         questionExtMapper.incView(question);
 
+    }
+
+    public List<QuestionDTO> selectRelated(QuestionDTO queryDTO) {
+        if (StringUtils.isBlank(queryDTO.getTag())) {
+            return new ArrayList<>();
+        }
+        String[] tags = StringUtils.split(queryDTO.getTag(), ",");
+        String regexpTag = Arrays.stream(tags).collect(Collectors.joining("|"));
+        Question question = new Question();
+        question.setId(queryDTO.getId());
+        question.setTag(regexpTag);
+
+        List<Question> questions = questionExtMapper.selectRelated(question);
+        List<QuestionDTO> questionDTOS = questions.stream().map(q -> {
+            QuestionDTO questionDTO = new QuestionDTO();
+            BeanUtils.copyProperties(q,questionDTO);
+            return questionDTO;
+        }).collect(Collectors.toList());
+
+        return questionDTOS;
     }
 }

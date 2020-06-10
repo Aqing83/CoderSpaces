@@ -1,9 +1,6 @@
 package life.qing.community.controller;
 
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import life.qing.community.dto.QuestionDTO;
-import life.qing.community.mapper.QuestionMapper;
-import life.qing.community.mapper.UserMapper;
 import life.qing.community.model.Question;
 import life.qing.community.model.User;
 import life.qing.community.service.QuestionService;
