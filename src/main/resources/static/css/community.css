@@ -12,6 +12,21 @@ body {
     margin-bottom: 15px;
 }
 
+.publish-wechat {
+    width: 100%;
+}
+
+.publish-tag-tab {
+    display: none;
+    margin-top: 10px;
+    padding-top: 10px;
+}
+.publish-tag-tab .label-info{
+    white-space: normal;
+    margin:  5px 5px;
+    display: inline-block;
+}
+
 .media-object {
     width: 38px;
     height: 38px;
@@ -47,16 +62,12 @@ body {
     padding-left: 0;
 }
 
-.question-wechat {
-    width: 100%;
-}
 
 .tag {
     font-size: 100%;
 }
 
 .community-menu {
-    display: block;
     color: #999;
     font-size: 12px;
     margin-bottom: 15px;

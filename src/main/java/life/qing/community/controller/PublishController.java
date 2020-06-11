@@ -1,9 +1,11 @@
 package life.qing.community.controller;
 
+import life.qing.community.cache.TagCache;
 import life.qing.community.dto.QuestionDTO;
 import life.qing.community.model.Question;
 import life.qing.community.model.User;
 import life.qing.community.service.QuestionService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,11 +30,14 @@ public class PublishController {
         model.addAttribute("description", question.getDescription());
         model.addAttribute("tag", question.getTag());
         model.addAttribute("id", question.getId());
+
+        model.addAttribute("tags", TagCache.get());
         return "publish";
     }
 
     @GetMapping("/publish")
-    public String publish() {
+    public String publish(Model model) {
+        model.addAttribute("tags", TagCache.get());
         return "publish";
     }
 
@@ -47,6 +52,8 @@ public class PublishController {
         model.addAttribute("title", title);
         model.addAttribute("description", description);
         model.addAttribute("tag", tag);
+        model.addAttribute("tags", TagCache.get());
+
         //发布问题时可能遇到的错误的提示
         if (title == null || title == "") {
             model.addAttribute("error", "标题不能为空");
@@ -62,6 +69,12 @@ public class PublishController {
             model.addAttribute("error", "标签不能为空");
             return "publish";
         }
+        String invalid = TagCache.filterInvalid(tag);
+        if(StringUtils.isNotBlank(invalid)){
+            model.addAttribute("error","输入非法标签"+invalid);
+            return "publish";
+        }
+
 
         User user = (User) request.getSession().getAttribute("user");
 
