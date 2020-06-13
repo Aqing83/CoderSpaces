@@ -21,9 +21,10 @@ body {
     margin-top: 10px;
     padding-top: 10px;
 }
-.publish-tag-tab .label-info{
+
+.publish-tag-tab .label-info {
     white-space: normal;
-    margin:  5px 5px;
+    margin: 5px 5px;
     display: inline-block;
 }
 
@@ -134,4 +135,11 @@ body {
 
 .menu .icon:hover {
     color: #499ef3;
+}
+
+.footer {
+    padding: 10px 25%;
+    color: #666;
+    font-size: 12px;
+
 }
