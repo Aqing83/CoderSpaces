@@ -5,6 +5,7 @@ import life.qing.community.dto.GithubUser;
 import life.qing.community.model.User;
 import life.qing.community.provider.GithubProvider;
 import life.qing.community.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -20,6 +21,7 @@ import java.util.UUID;
  * 2020/05/14 0:02
  */
 @Controller
+@Slf4j
 public class GithubAuthorizeController {
 
     @Autowired
@@ -62,6 +64,7 @@ public class GithubAuthorizeController {
 
         } else {
             //登录失败，重新登录
+            log.error("callback return github error {}",githubUser);
         }
         return "redirect:/";
     }

@@ -5,12 +5,14 @@ import com.alibaba.fastjson.JSONObject;
 import life.qing.community.dto.AccessTokenDTO;
 import life.qing.community.dto.GitEEUser;
 import life.qing.community.dto.GithubUser;
+import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
 @Component
+@Slf4j
 public class GitEEProvider {
     public static String getAccessToken(AccessTokenDTO accessTokenDTO) {
         MediaType mediaType = MediaType.get("application/json; charset=utf-8");
@@ -27,7 +29,7 @@ public class GitEEProvider {
 //            string.split("&")[0].split("=")[1];
             return token;
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("getAccessToken error,{}", accessTokenDTO, e);
         }
         return null;
     }
@@ -44,7 +46,7 @@ public class GitEEProvider {
             GitEEUser gitEEUser = JSON.parseObject(string, GitEEUser.class);
             return gitEEUser;
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("getUser error,{}", accessToken, e);
         }
         return null;
     }
