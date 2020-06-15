@@ -59,7 +59,7 @@
                                 <a th:href="@{https://github.com/login/oauth/authorize(client_id='Iv1.700e45869ca25045',redirect_uri=${#httpServletRequest.getServletContext().getAttribute('redirectUri')},scope='user',state=1)}">
                                     GitHub登录（</a>
 
-                               <a th:href="@{https://gitee.com/oauth/authorize(client_id='fcb2ff4472df1dc6c96ebbe86f7deb00bc79ebe96dafdd5eb62fc744eda301df',redirect_uri=${#httpServletRequest.getServletContext().getAttribute('redirectUri')},response_type='code')}">
+                               <a href="https://gitee.com/oauth/authorize?client_id=fcb2ff4472df1dc6c96ebbe86f7deb00bc79ebe96dafdd5eb62fc744eda301df&redirect_uri=http://123.57.76.119/callbackGitEE&response_type=code">
                                     GitEE登录</a>
                             </li>
                         </ul>
