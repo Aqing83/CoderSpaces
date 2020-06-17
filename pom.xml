@@ -100,8 +100,8 @@
                 <version>5.2.4</version>
                 <configuration>
                     <url>jdbc:mysql://rm-2ze9h3w0m0vh742uawo.mysql.rds.aliyuncs.com:3306/community</url>
-                    <user>root</user>
-                    <password>root</password>
+                    <user>aqing</user>
+                    <password>qs123000</password>
                 </configuration>
                 <dependencies>
                     <dependency>
