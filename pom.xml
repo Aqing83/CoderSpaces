@@ -99,7 +99,7 @@
                 <artifactId>flyway-maven-plugin</artifactId>
                 <version>5.2.4</version>
                 <configuration>
-                    <url>jdbc:mysql://rm-2ze9h3w0m0vh742uawo.mysql.rds.aliyuncs.com:3306/community</url>
+                    <url>jdbc:mysql://rm-2ze9h3w0m0vh742ua125010.mysql.rds.aliyuncs.com:3306/community</url>
                     <user>aqing</user>
                     <password>qs123000</password>
                 </configuration>
